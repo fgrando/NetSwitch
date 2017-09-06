@@ -1,0 +1,9 @@
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\bin\Debug\NetSwitch.exe.config
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\bin\Debug\NetSwitch.exe
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\bin\Debug\NetSwitch.pdb
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Debug\NetSwitch.csprojResolveAssemblyReference.cache
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Debug\NetSwitch.Form1.resources
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Debug\NetSwitch.Properties.Resources.resources
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Debug\NetSwitch.csproj.GenerateResource.Cache
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Debug\NetSwitch.exe
+c:\users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Debug\NetSwitch.pdb
