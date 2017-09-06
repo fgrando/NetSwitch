@@ -7,3 +7,11 @@ C:\Users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Rel
 C:\Users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Release\NetSwitch.exe
 C:\Users\fgran\documents\visual studio 2017\Projects\NetSwitch\NetSwitch\obj\Release\NetSwitch.pdb
 C:\Users\fgran\Documents\Visual Studio 2017\Projects\NetSwitch\NetSwitch\obj\Release\NetSwitch.csprojResolveAssemblyReference.cache
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\bin\Release\NetSwitch.exe.config
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\bin\Release\NetSwitch.exe
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\bin\Release\NetSwitch.pdb
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\obj\Release\NetSwitch.Form1.resources
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\obj\Release\NetSwitch.Properties.Resources.resources
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\obj\Release\NetSwitch.csproj.GenerateResource.Cache
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\obj\Release\NetSwitch.exe
+C:\Users\fgran\Documents\Visual Studio 2017\Projects\tmp\NetSwitch\NetSwitch\NetSwitch\obj\Release\NetSwitch.pdb
