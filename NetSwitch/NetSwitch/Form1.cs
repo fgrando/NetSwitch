@@ -9,20 +9,48 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
 using System.Management.Instrumentation;
+using System.IO;
 
 namespace NetSwitch
 {
     public partial class Form1 : Form
     {
+        private bool printedInterfacesStartup = false;
+        private bool toogleConfigActive = false;
         private bool allowshowdisplay = false;
-        private const string deviceDisabled = "22"; 
+        private const string deviceDisabled = "22";
         private const string menuExitText = "Exit";
+        private const string menuToggleText = "Toggle";
+        private const string toggleFileConfig = "toggle.conf";
+        private List<string> toggleToDeactivate = new List<string>();
+        private string toggleToActivate = "";
         private List<ManagementObject> devList = new List<ManagementObject>();
         private ToolStripMenuItem menuExit = new ToolStripMenuItem(menuExitText);
 
         public Form1()
         {
             InitializeComponent();
+
+            // parse toggle options, if configured:
+            // loads the content of the file. Each line must contain the exact name of the interface. Only one of the interfaces is activated each toggle.
+            if (File.Exists(toggleFileConfig))
+            {
+                List<string> interfaces = new List<string>();
+                string[] lines = System.IO.File.ReadAllLines(toggleFileConfig);
+                foreach(string line in lines)
+                {
+                    if (line.Count() > 0)
+                        interfaces.Add(line);
+                }
+                if(interfaces.Count() > 1)
+                {
+                    Console.WriteLine("toggle configuration found");
+                    toogleConfigActive = true;
+                    toggleToActivate = interfaces.ElementAt(0);
+                    interfaces.Remove(toggleToActivate);
+                    toggleToDeactivate = interfaces;
+                }
+            }
 
             Hide(); // will be only in notification area
             UpdateItems();
@@ -48,18 +76,27 @@ namespace NetSwitch
 
         private void UpdateInterfaces()
         {
-            devList.Clear();
-
             string NamespacePath = "\\\\.\\ROOT\\cimv2";
             string ClassName = "Win32_NetworkAdapter";
+            
+            // this message is useful to copy interface names and configuring toggle 
+            if (printedInterfacesStartup == false)
+                Console.WriteLine("add two or more of the following names to configure " + toggleFileConfig + " and then activate the Toggle function:");
+
+            devList.Clear();
             ManagementClass oClass = new ManagementClass(NamespacePath + ":" + ClassName);
             foreach (ManagementObject oObject in oClass.GetInstances())
             {
                 if (IsNetworkDevice(oObject))
                 {
                     devList.Add(oObject);
+                    // this message is useful to copy interface names and configuring toggle.
+                    if (printedInterfacesStartup == false)
+                        Console.WriteLine(Uid(oObject));
                 }
             }
+            // display only once the interface names
+            printedInterfacesStartup = true;
         }
 
         private Boolean IsNetworkDevice(ManagementObject obj)
@@ -69,7 +106,7 @@ namespace NetSwitch
 
         private Boolean IsDisabled(ManagementObject obj)
         {
-            if(obj["ConfigManagerErrorCode"] != null)
+            if (obj["ConfigManagerErrorCode"] != null)
             {
                 return (obj["ConfigManagerErrorCode"].ToString() == "22");
             }
@@ -93,7 +130,16 @@ namespace NetSwitch
                 // add to menu
                 contextMenuStrip1.Items.Add(m);
             }
+
+            // add the toggle option to toggle interfaces defined by user in configuration
             
+            ToolStripMenuItem toggleOption = new ToolStripMenuItem(menuToggleText)
+            {
+                Enabled = toogleConfigActive
+            };
+
+            this.contextMenuStrip1.Items.Add(toggleOption);
+
             // remember to add the exit option or user will be sad...
             this.contextMenuStrip1.Items.Add(menuExit);
         }
@@ -104,6 +150,10 @@ namespace NetSwitch
             if (menuExitText == e.ClickedItem.Text)
             {
                 Close();
+            }
+            else if (menuToggleText == e.ClickedItem.Text)
+            {
+                ToggleUserInterfaces();
             }
 
             // find the interface in or device list 
@@ -119,6 +169,46 @@ namespace NetSwitch
 
             // refresh all 
             UpdateItems();
+        }
+
+        private void ToggleUserInterfaces()
+        {
+            string aux = toggleToActivate;
+
+            // if there is no element to deactivate, do not toggle
+            if (toggleToDeactivate.Count() < 1)
+                return;
+
+            toggleToActivate = toggleToDeactivate.ElementAt(0);
+            toggleToDeactivate.Remove(toggleToActivate);
+            toggleToDeactivate.Add(aux); // add in the end
+
+            Console.WriteLine("activating " + toggleToActivate);
+            foreach(string str in toggleToDeactivate)
+            {
+                Console.WriteLine("deactive " + str);
+            }
+
+            foreach (ManagementObject oObject in devList)
+            {
+                // disable all interfaces and enable only one of the user set (toggle mode)
+                foreach (string iface in toggleToDeactivate)
+                {
+                    if (iface == Uid(oObject))
+                    {
+                        string method = "Disable";
+                        oObject.InvokeMethod(method, null);
+                    }
+                }
+
+                if (toggleToActivate == Uid(oObject))
+                {
+                    string method = "Enable";
+                    oObject.InvokeMethod(method, null);
+                }
+
+                UpdateMenu();
+            }
         }
     }
 }
